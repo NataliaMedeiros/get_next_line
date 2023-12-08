@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   get_next_line.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: nmedeiro <nmedeiro@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/11/22 17:00:58 by nmedeiro      #+#    #+#                 */
-/*   Updated: 2023/11/22 19:04:46 by nmedeiro      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/22 17:00:58 by nmedeiro          #+#    #+#             */
+/*   Updated: 2023/12/08 16:49:47 by natalia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,53 +25,92 @@
 */
 
 #include "get_next_line.h"
+#include <string.h>
 
-int	count_lines(char *content);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	//pensei em usar tipo o split para descobrir uantas linhas tenho, 
-	//mas nao acho que eo melhor approach pois o ideal seria fazer cada nova linha
-	//ser recebida por um node.
-}
-
-int	find_new_line(char *content)
-{
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (content[i] != '\n')
+	while (i + 1 < size && src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	if (i < size)
+	{
+		dst[i] = '\0';
+	}
+	while (src[i] != '\0')
 	{
 		i++;
 	}
 	return (i);
 }
 
-char	*get_next_line(int fd)
+int	find_next_line(char *text)
 {
-	char	*new_line;
-	ssize_t	bytes_read;
 	int		i;
 
-	new_line = malloc(BUFFER_SIZE * sizeof(char));
-	if (new_line == NULL)
-		return (NULL);
-	bytes_read = read(fd, new_line, BUFFER_SIZE);
-	// printf("%zd\n", bytes_read);
-	// //if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, new_line, 0) < 0)
 	i = 0;
-	// if (read(fd, new_line, 0) < 0)
-	// 	printf("I found the end of the file\n");
-	//le o tamanho total do arquivo
-	// while ((read(fd, new_line, 100)) != 0)
-	// {
-	// 	i++;
-	// }
-	// printf("%d\n", i);
-	while (new_line[i] != '\n')
-	{
+	if (!text)
+		return (0);
+	while (text[i] != '\n' && text[i] != '\0')
 		i++;
-	}
-	printf("%d\n", i);
-	// write(1, new_line, i);
-	// write(1, "\n", 1);
-	return (new_line);
+	return (i);
 }
+
+char *read_file(int fd, char *text)
+{
+	int		bytes_read;
+	char	*new_text;
+
+	bytes_read = 1;
+	new_text = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	while ((find_next_line(text) == 0) && bytes_read != 0)
+	{
+		bytes_read = read(fd, new_text, BUFFER_SIZE);
+		if (bytes_read == -1)
+		{
+			free(text);
+			free(new_text);
+			return (NULL);
+		}
+		//printf ("bytes read %d\n", bytes_read);
+		new_text[bytes_read] = 0;
+		text = ft_strjoin(text, new_text);
+	}
+	return (text);
+}
+
+char	*update_text(char *text, int i)
+{
+	int	j;
+
+	j = 0;
+	while (text[i])
+		text[j++] = text[i++];
+	while (text[j] != '\0')
+		text[j++] = '\0';
+	return (text);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*text;
+	char		*actual_line;
+	int			i;
+
+	i = 0;
+	if (text == NULL)
+		text = ft_calloc((BUFFER_SIZE + 1),sizeof(char));
+	text = read_file(fd, text);
+	if (text[0] == '\0')
+		return (free(text), NULL);
+	i = find_next_line(text) + 1;
+	actual_line = malloc(i * sizeof(char));
+	ft_strlcpy(actual_line, text, i);
+	text = update_text(text, i);
+	return (actual_line);
+}
+

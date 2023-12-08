@@ -9,6 +9,7 @@ mkdir exec
 cc -Wall -Werror -Wextra \
 	main.c \
 	get_next_line.c \
+	get_next_line_utils.c \
 	-o exec/get_next_line
 
 #	echo "Compiling file ${BOLD} ft_printf ${RESET}"
