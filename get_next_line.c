@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:00:58 by nmedeiro          #+#    #+#             */
-/*   Updated: 2023/12/08 16:49:47 by natalia          ###   ########.fr       */
+/*   Updated: 2023/12/12 16:44:35 by natalia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,8 @@ char	*get_next_line(int fd)
 	if (text[0] == '\0')
 		return (free(text), NULL);
 	i = find_next_line(text) + 1;
-	actual_line = malloc(i * sizeof(char));
-	ft_strlcpy(actual_line, text, i);
+	actual_line = malloc((i+1) * sizeof(char));
+	ft_strlcpy(actual_line, text, (i +1));
 	text = update_text(text, i);
 	return (actual_line);
 }
-
