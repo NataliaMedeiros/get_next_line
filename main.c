@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:13:15 by nmedeiro          #+#    #+#             */
-/*   Updated: 2023/12/12 16:42:04 by natalia          ###   ########.fr       */
+/*   Updated: 2023/12/12 22:50:56 by natalia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,23 @@ int ft_test_get_next_line()
 
 	i = 0;
 	fd = open("test.txt", O_RDONLY);
-	while ((lines = get_next_line(fd)) != NULL)
-	{
-		//lines = get_next_line(fd);
-		printf("%s", lines);
-		i++;
-	}
-	if (lines == NULL && i == 0)
-		printf("%s", lines);
+	// while ((lines = get_next_line(fd)) != NULL)
+	// {
+	// 	printf("%s", lines);
+	// 	free(lines);
+	// }
+
+	// while ((lines = get_next_line(fd)) != NULL)
+	// {
+	lines = get_next_line(fd);
+	//printf("%s", lines);
+	free (lines);
+	lines = get_next_line(fd);
+	//printf("%s", lines);
+	// 	// i++;
+	// }
+	// if (lines == NULL && i == 0)
+	// 	printf("%s", lines);
 	free (lines);
 	close(fd);
 	return (0);
