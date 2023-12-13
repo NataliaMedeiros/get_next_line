@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 17:05:07 by nmedeiro          #+#    #+#             */
-/*   Updated: 2023/12/12 22:08:47 by natalia          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line.h                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: natalia <natalia@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/11/22 17:05:07 by nmedeiro      #+#    #+#                 */
+/*   Updated: 2023/12/13 12:00:56 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 char	*get_next_line(int fd);
 
-//void	*ft_calloc(size_t nmemb, size_t size);
+void	*ft_calloc(size_t nmemb, size_t size);
 
 char	*ft_strjoin(char const *s1, char const *s2);
 

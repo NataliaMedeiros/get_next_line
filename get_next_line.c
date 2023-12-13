@@ -1,33 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 17:00:58 by nmedeiro          #+#    #+#             */
-/*   Updated: 2023/12/12 22:55:29 by natalia          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: natalia <natalia@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/11/22 17:00:58 by nmedeiro      #+#    #+#                 */
+/*   Updated: 2023/12/13 17:16:57 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <string.h>
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	char	*new_variable;
-
-	if (nmemb && ((nmemb * size) / nmemb) != size)
-		return (NULL);
-	if (nmemb < 0 || size < 0)
-		return (0);
-	new_variable = malloc(nmemb * size);
-	if (new_variable == NULL)
-		return (NULL);
-	while (nmemb > 0)
-		new_variable[--nmemb] = '\0';
-	return (new_variable);
-}
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
@@ -69,26 +53,19 @@ char	*read_file(char	*text, int fd)
 	char	*new_text;
 	int		bytes;
 
-	bytes = 1;
 	new_text = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	while ((find_next_line(text) == 0) && (bytes = read(fd, new_text, BUFFER_SIZE)) > 0)
 	{
 		new_text[bytes] = '\0';
-		// bytes = read(fd, new_text, BUFFER_SIZE);
-		// if (bytes == -1)
-		// {
-		// 	free(text);
-		// 	free(new_text);
-		// 	return (NULL);
-		// }
+		if (bytes == -1)
+		{
+			//free(text);
+			//free(new_text);
+			return (NULL);
+		}
 		text = ft_strjoin(text, new_text);
 	}
-	free(new_text);
-	if (bytes == -1)
-	{
-		free(text);
-		return (NULL);
-	}
+	//free(new_text);
 	//printf("%s\n", text);
 	return (text);
 }
@@ -99,14 +76,14 @@ char	*update_text(char *text, int i)
 
 	while (text[i])
 	{
-		text[j] = text[i];
-		i++;
-		j++;
+		text[j++] = text[i++];
+		// i++;
+		// j++;
 	}
 	while (text[j] != '\0')
 	{
-		text[j] = '\0';
-		j++;
+		text[j++] = '\0';
+		// j++;
 	}
 	return (text);
 }
@@ -118,17 +95,24 @@ char	*get_next_line(int fd)
 	int			i;
 
 	i = 0;
-	if (text == NULL)
-		text = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	//read(fd, text, BUFFER_SIZE);
-	text = read_file(text, fd);
-	printf("%s\n", text);
-	while (text[i] != '\n')
-		i++;
-	line = ft_calloc((i + 2), sizeof(char));
-	if (line == NULL)
+	if (fd == -1)
 		return (NULL);
+	if (text == NULL)
+		text = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	text = read_file(text, fd);
+	if (text[0] == '\0' || text[0] == '0'
+		|| text[0] =='\n')
+		return (NULL);
+	i = find_next_line(text);
+	if (i == 0)
+	{
+		free (text);
+		return (NULL);
+	}
+	line = ft_calloc((i + 2), sizeof(char));
 	ft_strlcpy(line, text, (i + 2));
-	text = update_text(text, i + 1);
+	text = update_text(text, (i + 1));
+	if (text == NULL || text[0] == '\0')
+		free(text);
 	return (line);
 }

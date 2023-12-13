@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 16:39:08 by natalia           #+#    #+#             */
-/*   Updated: 2023/12/12 22:10:01 by natalia          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line_utils.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: natalia <natalia@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/08 16:39:08 by natalia       #+#    #+#                 */
+/*   Updated: 2023/12/13 12:25:03 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,21 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(s, s2, len);
 	return (s);
 }
-/*
-// void	*ft_calloc(size_t nmemb, size_t size)
-// {
-// 	void	*new;
-// 	size_t	total;
-// 	total = nmemb * size;
-// 	if (nmemb && (total / nmemb) != size)
-// 	{
-// 		return (NULL);
-// 	}
-// 	if ((long) nmemb < 0 || (long) size < 0)
-// 		return (0);
-// 	new = malloc(nmemb * size);
-// 	if (new == NULL)
-// 		return (NULL);
-// 	ft_bzero(new, nmemb * size);
-// 	return (new);
-// }
-*/
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*new;
+	size_t	total;
+	
+	total = nmemb * size;
+	if (nmemb && (total / nmemb) != size)
+		return (NULL);
+	if ((long) nmemb < 0 || (long) size < 0)
+		return (0);
+	new = malloc(nmemb * size);
+	if (new == NULL)
+		return (NULL);
+	ft_bzero(new, nmemb * size);
+	return (new);
+}
+

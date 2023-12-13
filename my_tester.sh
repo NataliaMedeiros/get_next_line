@@ -6,7 +6,7 @@ RESET=$(tput sgr0)
 rm -rf exec
 mkdir exec
 
-cc -Wall -Werror -Wextra \
+cc -Wall -Werror -Wextra -g \
 	-D BUFFER_SIZE=42 \
 	main.c \
 	get_next_line.c \
