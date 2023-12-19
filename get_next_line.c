@@ -39,9 +39,9 @@ int	find_next_line(char *text)
 	int		i;
 
 	i = 0;
-	if (!text)
+	if (text == NULL)
 		return (0);
-	while (text[i] != '\n' && text[i] != '\0')
+	while (i < BUFFER_SIZE && text[i] != '\n' && text[i] != '\0')
 		i++;
 	if (text[i] == '\n')
 		i++;
@@ -51,22 +51,28 @@ int	find_next_line(char *text)
 char	*read_file(char	*text, int fd)
 {
 	char	*new_text;
-	int		bytes;
+	int		bytes_read;
 
-	new_text = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	while ((find_next_line(text) == 0) && (bytes = read(fd, new_text, BUFFER_SIZE)) > 0)
+	if (!text)
+		text = ft_calloc(0,0);
+	new_text = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	bytes_read = 1;
+	while (bytes_read > 0)
 	{
-		new_text[bytes] = '\0';
-		if (bytes == -1)
+		bytes_read = read(fd, new_text, BUFFER_SIZE);
+		if (bytes_read == -1)
 		{
-			//free(text);
-			//free(new_text);
+			free(new_text);
+			new_text = NULL;
 			return (NULL);
 		}
+		new_text[bytes_read] = '\0';
+		char *temp = text;
 		text = ft_strjoin(text, new_text);
+		free(temp);
 	}
-	//free(new_text);
-	//printf("%s\n", text);
+	free(new_text);
+	new_text = NULL;
 	return (text);
 }
 
@@ -74,16 +80,16 @@ char	*update_text(char *text, int i)
 {
 	int	j = 0;
 
-	while (text[i])
+	while (text[i] != '\0')
 	{
-		text[j++] = text[i++];
-		// i++;
-		// j++;
+		text[j] = text[i];
+		i++;
+		j++;
 	}
 	while (text[j] != '\0')
 	{
-		text[j++] = '\0';
-		// j++;
+		text[j] = '\0';
+		j++;
 	}
 	return (text);
 }
@@ -92,27 +98,30 @@ char	*get_next_line(int fd)
 {
 	static char	*text;
 	char		*line;
-	int			i;
+	int			buffer;
 
-	i = 0;
-	if (fd == -1)
-		return (NULL);
-	if (text == NULL)
-		text = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	text = read_file(text, fd);
-	if (text[0] == '\0' || text[0] == '0'
-		|| text[0] =='\n')
-		return (NULL);
-	i = find_next_line(text);
-	if (i == 0)
+	buffer = 0;
+	if (!fd || fd < 0 || BUFFER_SIZE < 0)
 	{
-		free (text);
+		//printf("passei por aqui");
 		return (NULL);
 	}
-	line = ft_calloc((i + 2), sizeof(char));
-	ft_strlcpy(line, text, (i + 2));
-	text = update_text(text, (i + 1));
-	if (text == NULL || text[0] == '\0')
+	//text = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	text = read_file(text, fd);
+	//printf("%s\n", text);
+	if (text == NULL)
+		return (NULL);
+	buffer = find_next_line(text);
+	line = ft_calloc((buffer + 2), sizeof(char));
+	ft_strlcpy(line, text, (buffer + 2));
+	text = update_text(text, (buffer + 1));
+	if (buffer == 0)
+	{
 		free(text);
+		text = NULL;
+		free(line);
+		line = NULL;
+		return(NULL);
+	}
 	return (line);
 }

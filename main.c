@@ -20,8 +20,11 @@
 	return -1 on error.
 
 */
+
 #include "get_next_line.h"
-int ft_fprintf()
+#include <string.h>
+
+int ft_fprintf(char	*text)
 {
 	FILE	*file;
 	char *file_name;
@@ -33,7 +36,7 @@ int ft_fprintf()
 		perror("Error opening file");
 		return (1);
 	}
-	fprintf(file, "Hello, world!\n");
+	fprintf(file, "%s", text);
 	fclose(file);
 	return (0);
 }
@@ -46,23 +49,93 @@ int ft_test_get_next_line()
 
 	i = 0;
 	fd = open("test.txt", O_RDONLY);
-	// while ((lines = get_next_line(fd)) != NULL)
-	// {
-		lines = get_next_line(fd);
+	while ((lines = get_next_line(fd)) != NULL && i < 50)
+	{
+	//	lines = get_next_line(fd);
 		printf("%s", lines);
-	// 	i++;
-	// }
-	if (lines == NULL && i == 0)
-		printf("%s", lines);
-	free (lines);
+		free(lines);
+		i++;
+	}
+	//if (lines == NULL && i == 0)
+		//printf("%s", lines);
+	//free (lines);
 	close(fd);
 	return (0);
 }
 
+void gnl(char	*test_name, int fd, char const * expectedReturn)
+{
+	char *  gnlReturn = get_next_line(fd);
+
+	if(expectedReturn == NULL && gnlReturn == NULL)
+		printf("%s: OK\n", test_name);
+	else if(strcmp(gnlReturn, expectedReturn))
+		printf("%s: OK\n", test_name);
+}
+
 int	main(void)
 {
-	//ft_fprintf();
-	ft_test_get_next_line();
+	int		fd;
+
+	/* 1 */ gnl("Invalid fd", -1, NULL);
+	/* 2 */ fd = open("files/empty.txt", O_RDONLY);
+	gnl("Empty fd", fd,NULL);
+	close(fd);
+	/* 3 */ fd = open("files/nl.txt", O_RDONLY);
+	gnl("nl", fd, "\n");
+	close(fd);
+	/* 4 */ fd = open("files/41_no_nl.txt", O_RDONLY);
+	gnl("no nl", fd, "01234567890123456789012345678901234567890");
+	//nl("  ",fd, NULL); 
+	close(fd);
+/*
+	title("files/41_with_nl: ")
+	fd = open("files/41_with_nl", O_RDWR);
+	gnl(fd, "0123456789012345678901234567890123456789\n");
+	gnl(fd, "0");
+	gnl(fd, NULL);) close(fd);
+
+	title("files/42_no_nl: ")
+	fd = open("files/42_no_nl", O_RDWR);
+	gnl(fd, "012345678901234567890123456789012345678901");
+	gnl(fd, NULL);) close(fd);
+
+	title("files/42_with_nl: ")
+	fd = open("files/42_with_nl", O_RDWR);
+	gnl(fd, "01234567890123456789012345678901234567890\n");
+	if (BUFFER_SIZE == 42) {
+	char c = 0; read(fd, &c, 1); check(c == '1'); ++iTest;
+	gnl(fd, NULL);}
+	else {
+	gnl(fd, "1");
+	gnl(fd, NULL);})
+	iTest = 1; close(fd);
+
+	title("files/43_no_nl: ")
+	fd = open("files/43_no_nl", O_RDWR);
+	gnl(fd, "0123456789012345678901234567890123456789012");
+	gnl(fd, NULL);) close(fd);
+
+	title("files/43_with_nl: ")
+	fd = open("files/43_with_nl", O_RDWR);
+	gnl(fd, "012345678901234567890123456789012345678901\n");
+	gnl(fd, "2");
+	gnl(fd, NULL);) close(fd);
+
+	title("files/multiple_nlx5: ")
+	fd = open("files/multiple_nlx5", O_RDWR);
+	gnl(fd, "\n");
+	gnl(fd, "\n");
+	gnl(fd, "\n");
+	gnl(fd, "\n");
+	gnl(fd, "\n");
+	gnl(fd, NULL);) close(fd);
+
+	
+	//ft_test_get_next_line();
+	//ft_fprintf("avocado\n");
+	//ft_test_get_next_line();
+*/
 	return (0);
 }
 
