@@ -1,73 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: natalia <natalia@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/11/22 17:13:15 by nmedeiro      #+#    #+#                 */
-/*   Updated: 2023/12/13 17:06:38 by nmedeiro      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
-/*
-	Function OPEN:
-	int open (const char* Path, int flags);
-	Path: Path to the file which we want to open.
-	flags: It is used to specify how you want to open the file.
-		O_RDONLY 	Opens the file in read-only mode.
-		O_CREAT 	Create a file if it doesn’t exist.
-	return -1 on error.
-
-*/
-#include "get_next_line.h"
-int ft_fprintf()
-{
-	FILE	*file;
-	char *file_name;
-
-	file_name =  "test.txt";
-	file = fopen(file_name, "w");
-	if (file == NULL)
-	{
-		perror("Error opening file");
-		return (1);
-	}
-	fprintf(file, "Hello, world!\n");
-	fclose(file);
-	return (0);
-}
-
-int ft_test_get_next_line()
-{
-	int		fd;
-	char	*lines;
-	int		i;
-
-	i = 0;
-	fd = open("test.txt", O_RDONLY);
-	while (i < 40)
-	{
-		lines = get_next_line(fd);
-		printf("%s", lines);
-		i++;
-	}
-	if (lines == NULL && i == 0)
-		printf("%s", lines);
-	free (lines);
-	close(fd);
-	return (0);
-}
-
-int	main(void)
-{
-	//ft_fprintf();
-	ft_test_get_next_line();
-	return (0);
-}
-
-/*
-Repeated calls (e.g., using a loop) to your get_next_line() function should let
+Repeated
+ calls (e.g., using a loop) to your get_next_line() function should let
 you read the text file pointed to by the file descriptor, one line at a time.
 • Your function should return the line that was read.
 If there is nothing else to read or if an error occurred, it should return NULL.
@@ -97,4 +29,3 @@ end of file.
 • We also consider that get_next_line() has an undefined behavior when reading
 a binary file. However, you can implement a logical way to handle this behavior if
 you want to.
-*/

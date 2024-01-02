@@ -25,6 +25,7 @@ void	ft_bzero(void *s, size_t n)
 size_t	ft_strlen(const char *s)
 {
 	int	len;
+	
 	len = 0;
 	while (s[len] != '\0')
 	{
@@ -39,6 +40,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	size_t	n;
 	size_t	len_total;
 	size_t	src_len;
+
 	dst_len = ft_strlen(dst);
 	n = 0;
 	src_len = ft_strlen(src);
@@ -57,7 +59,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	return (len_total);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*s;
 	size_t	len;
@@ -68,7 +70,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_bzero(s, len);
 	ft_strlcat(s, s1, len);
 	ft_strlcat(s, s2, len);
-	return (s);
+	ft_strlcpy(s1, s, len);
+	free(s);
+	return (s1);
 }
 
 void	*ft_calloc(size_t nmemb, size_t size)

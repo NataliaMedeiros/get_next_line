@@ -7,7 +7,7 @@ rm -rf exec
 mkdir exec
 
 cc -Wall -Werror -Wextra -g \
-	-D BUFFER_SIZE=1 \
+	-D BUFFER_SIZE=15 \
 	main.c \
 	get_next_line.c \
 	get_next_line_utils.c \
