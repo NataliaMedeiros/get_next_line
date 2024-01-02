@@ -128,7 +128,7 @@ char *get_next_line(int fd)
 	line = ft_calloc((line_size + 2), sizeof(char));
 	if (line == NULL)
 		return (NULL);
-	ft_strlcpy(line, text, (line_size + 1));
-	update_text(text, line_size);
+	ft_strlcpy(line, text, (line_size + 2));
+	update_text(text, (line_size + 1));
 	return(line);
 }
