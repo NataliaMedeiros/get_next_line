@@ -64,7 +64,6 @@ char *read_file(int fd, char *text)
 	{
 		if (buffer_read == BUFFER_SIZE)
 			break;
-		//printf("Buffer read: %d, BUFFER_SIZE: %d\n", buffer_read, BUFFER_SIZE);
 		buffer_read = read(fd, new_text, BUFFER_SIZE);
 		if (buffer_read < 0)
 		{
@@ -73,11 +72,9 @@ char *read_file(int fd, char *text)
 			return (NULL);
 		}
 		//text = ft_strjoin(text, new_text);
-		ft_strlcat(temp, text, ft_strlen(text));
+		ft_strlcat(temp, text, (ft_strlen(text) + 1));
 		ft_strlcat(temp, new_text, (ft_strlen(new_text) + 1));
 		ft_strlcpy(text, temp, (BUFFER_SIZE + 1));
-				//printf("Buffer read: %d, BUFFER_SIZE: %d\n", buffer_read, BUFFER_SIZE);
-
 	}
 	free(new_text);
 	free(temp);
@@ -93,6 +90,8 @@ int	find_next_line(char *text)
 	{
 		i++;
 	}
+	if(text[i] == '\n')
+		i++;
 	return (i);
 }
 
@@ -105,10 +104,7 @@ int	find_next_line(char *text)
 	{
 		text[j++] = text[i++];
 	}
-	while (text[j] != '\0')
-	{
-		text[j++] = '\0';
-	}
+	text[j] = '\0';
 	return (text);
  }
 
@@ -118,17 +114,17 @@ char *get_next_line(int fd)
 	char *line;
 	int line_size;
 
-	if (fd == -1)
-	{
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-		printf("passei no if");
-	}
 	read_file(fd, text);
 	line_size = find_next_line(text);
+	//printf("%d\n", line_size);
 	line = ft_calloc((line_size + 2), sizeof(char));
 	if (line == NULL)
 		return (NULL);
-	ft_strlcpy(line, text, (line_size + 2));
-	update_text(text, (line_size + 1));
+	ft_strlcpy(line, text, (line_size + 1));
+	if (line[0] == '\0')
+		return (free(line), NULL);
+	update_text(text, line_size);
 	return(line);
 }

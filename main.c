@@ -38,15 +38,15 @@ int ft_fprintf()
 	return (0);
 }
 
-int ft_test_get_next_line()
+int ft_test_get_next_line(char *file_name)
 {
 	int		fd;
 	char	*lines;
 	int		i;
 
 	i = 0;
-	fd = open("test.txt", O_RDONLY);
-	while (i < 40)
+	fd = open(file_name, O_RDONLY);
+	while (i < 6)
 	{
 		lines = get_next_line(fd);
 		printf("%s", lines);
@@ -62,7 +62,8 @@ int ft_test_get_next_line()
 int	main(void)
 {
 	//ft_fprintf();
-	ft_test_get_next_line();
+	
+	ft_test_get_next_line("test.txt");
 	return (0);
 }
 
