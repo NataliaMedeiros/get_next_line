@@ -46,7 +46,7 @@ int ft_test_get_next_line(char *file_name)
 
 	i = 0;
 	fd = open(file_name, O_RDONLY);
-	while (i < 6)
+	while (i < 50)
 	{
 		lines = get_next_line(fd);
 		printf("%s", lines);

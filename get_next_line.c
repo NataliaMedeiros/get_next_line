@@ -48,6 +48,29 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (i);
 }
 
+char	*combine_strs(char *p_line, char *buf)
+{
+	char	*joined;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (p_line == NULL || buf == NULL)
+		return (NULL);
+	joined = malloc((ft_strlen(p_line) + ft_strlen(buf) + 1) * sizeof(char));
+	if (joined == NULL)
+		return (NULL);
+	while (p_line[i] != '\0')
+		joined[j++] = p_line[i++];
+	i = 0;
+	while (buf[i] != '\0' && buf[i] != '\n')
+		joined[j++] = buf[i++];
+	if (buf[i] == '\n')
+		joined[j++] = buf[i];
+	joined[j] = '\0';
+	return (joined);
+}
 
 char *read_file(int fd, char *text)
 {
@@ -55,15 +78,16 @@ char *read_file(int fd, char *text)
 	char *new_text;
 	char	*temp;
 
-	buffer_read = 1;
+	buffer_read = -1;
 	new_text = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	ft_bzero(new_text, BUFFER_SIZE + 1);
 	ft_bzero(temp, BUFFER_SIZE + 1);
 	while(buffer_read != 0 && (ft_strchr(text, '\n') == NULL))
 	{
-		if (buffer_read == BUFFER_SIZE)
-			break;
+		//buffer_read = 0;
+		//if (buffer_read == BUFFER_SIZE)
+		//	break;
 		buffer_read = read(fd, new_text, BUFFER_SIZE);
 		if (buffer_read < 0)
 		{
@@ -71,10 +95,13 @@ char *read_file(int fd, char *text)
 			free(temp);
 			return (NULL);
 		}
-		//text = ft_strjoin(text, new_text);
-		ft_strlcat(temp, text, (ft_strlen(text) + 1));
-		ft_strlcat(temp, new_text, (ft_strlen(new_text) + 1));
-		ft_strlcpy(text, temp, (BUFFER_SIZE + 1));
+		//new_text[buffer_read] = '\0';
+		//new_text = combine_strs(text, new_text);
+		text = ft_strjoin(text, new_text);
+		//ft_strlcat(temp, text, (ft_strlen(text) + 1));
+		//ft_strlcat(temp, new_text, (ft_strlen(new_text) + 1));
+		//ft_strlcpy(text, temp, (BUFFER_SIZE + 1));
+		//text[buffer_read] = '\0';
 	}
 	free(new_text);
 	free(temp);
