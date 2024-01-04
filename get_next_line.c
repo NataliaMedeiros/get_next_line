@@ -52,6 +52,7 @@ char *read_file_and_join(int fd, char *text, char *line)
 {
 	int buffer_read;
 	char	*prev_line;
+	//char	*temp_line;
 
 	buffer_read = 1;
 	prev_line = line;
@@ -63,17 +64,19 @@ char *read_file_and_join(int fd, char *text, char *line)
 		if (buffer_read == -1)
 		{
 			text[0] = '\0';
-			//free(prev_line);
+			free(prev_line);
 			return (NULL);
 		}
 		text[buffer_read] = '\0';
 		line = ft_strjoin(prev_line, text);
 		if (line == NULL)
-			return (/*free(prev_line)*/ NULL);
-		//free(prev_line);
+		{
+			free(prev_line);
+			return (NULL);
+		}
+		free(prev_line);
 		prev_line = line;
 	}
-	//free(prev_line);
 	return (line);
 }
 

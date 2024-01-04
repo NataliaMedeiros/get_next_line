@@ -63,6 +63,7 @@ char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*s;
 	size_t	len;
+	
 	len = ft_strlen(s1) + ft_strlen (s2) + 1;
 	s = (char *)ft_calloc(sizeof(char), len);
 	if (s == NULL)
@@ -70,9 +71,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	ft_bzero(s, len);
 	ft_strlcat(s, s1, len);
 	ft_strlcat(s, s2, len);
-	ft_strlcpy(s1, s, len);
-	free(s);
-	return (s1);
+	//ft_strlcpy(s1, s, len);
+	//free(s1);
+	return (s);
 }
 
 void	*ft_calloc(size_t nmemb, size_t size)
