@@ -48,64 +48,33 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (i);
 }
 
-char	*combine_strs(char *p_line, char *buf)
-{
-	char	*joined;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if (p_line == NULL || buf == NULL)
-		return (NULL);
-	joined = malloc((ft_strlen(p_line) + ft_strlen(buf) + 1) * sizeof(char));
-	if (joined == NULL)
-		return (NULL);
-	while (p_line[i] != '\0')
-		joined[j++] = p_line[i++];
-	i = 0;
-	while (buf[i] != '\0' && buf[i] != '\n')
-		joined[j++] = buf[i++];
-	if (buf[i] == '\n')
-		joined[j++] = buf[i];
-	joined[j] = '\0';
-	return (joined);
-}
-
-char *read_file(int fd, char *text)
+char *read_file_and_join(int fd, char *text, char *line)
 {
 	int buffer_read;
-	char *new_text;
-	char	*temp;
+	char	*prev_line;
 
-	buffer_read = -1;
-	new_text = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	ft_bzero(new_text, BUFFER_SIZE + 1);
-	ft_bzero(temp, BUFFER_SIZE + 1);
+	buffer_read = 1;
+	prev_line = line;
+	if (ft_strchr(line, '\n') != NULL)
+		return(line);
 	while(buffer_read != 0 && (ft_strchr(text, '\n') == NULL))
 	{
-		//buffer_read = 0;
-		//if (buffer_read == BUFFER_SIZE)
-		//	break;
-		buffer_read = read(fd, new_text, BUFFER_SIZE);
-		if (buffer_read < 0)
+		buffer_read = read(fd, text, BUFFER_SIZE);
+		if (buffer_read == -1)
 		{
-			free(new_text);
-			free(temp);
+			text[0] = '\0';
+			//free(prev_line);
 			return (NULL);
 		}
-		//new_text[buffer_read] = '\0';
-		//new_text = combine_strs(text, new_text);
-		text = ft_strjoin(text, new_text);
-		//ft_strlcat(temp, text, (ft_strlen(text) + 1));
-		//ft_strlcat(temp, new_text, (ft_strlen(new_text) + 1));
-		//ft_strlcpy(text, temp, (BUFFER_SIZE + 1));
-		//text[buffer_read] = '\0';
+		text[buffer_read] = '\0';
+		line = ft_strjoin(prev_line, text);
+		if (line == NULL)
+			return (/*free(prev_line)*/ NULL);
+		//free(prev_line);
+		prev_line = line;
 	}
-	free(new_text);
-	free(temp);
-	return (text);
+	//free(prev_line);
+	return (line);
 }
 
 int	find_next_line(char *text)
@@ -139,19 +108,24 @@ char *get_next_line(int fd)
 {
 	static char text[BUFFER_SIZE + 1];
 	char *line;
-	int line_size;
+	//int line_size;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	read_file(fd, text);
-	line_size = find_next_line(text);
 	//printf("%d\n", line_size);
-	line = ft_calloc((line_size + 2), sizeof(char));
+	line = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (line == NULL)
 		return (NULL);
-	ft_strlcpy(line, text, (line_size + 1));
+	ft_strlcpy(line, text, (ft_strlen(text)));
+	line = read_file_and_join(fd, text, line);
+	//line_size = find_next_line(text);
+	//printf("%d\n", line_size);
+	//line = ft_calloc((line_size + 2), sizeof(char));
+	//if (line == NULL)
+	//	return (NULL);
+	//ft_strlcpy(line, text, (line_size + 1));
 	if (line[0] == '\0')
 		return (free(line), NULL);
-	update_text(text, line_size);
+	update_text(text, ft_strlen(line));
 	return(line);
 }

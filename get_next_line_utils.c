@@ -71,6 +71,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	ft_strlcat(s, s1, len);
 	ft_strlcat(s, s2, len);
 	ft_strlcpy(s1, s, len);
+	free(s);
 	return (s1);
 }
 
