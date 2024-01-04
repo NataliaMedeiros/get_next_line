@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   get_next_line_utils.c                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: natalia <natalia@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/12/08 16:39:08 by natalia       #+#    #+#                 */
-/*   Updated: 2023/12/13 12:25:03 by nmedeiro      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/08 16:39:08 by natalia           #+#    #+#             */
+/*   Updated: 2024/01/04 19:19:23 by natalia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-
 size_t	ft_strlen(const char *s)
 {
 	int	len;
-	
+
 	len = 0;
 	while (s[len] != '\0')
 	{
@@ -34,84 +33,27 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+char	*ft_strjoin(char *prev_line, char *text)
 {
-	size_t	dst_len;
-	size_t	n;
-	size_t	len_total;
-	size_t	src_len;
-
-	dst_len = ft_strlen(dst);
-	n = 0;
-	src_len = ft_strlen(src);
-	len_total = dst_len + src_len;
-	if (size > dst_len + 1)
-	{
-		while ((src[n] != '\0') && ((dst_len + n + 1) < size))
-		{
-			dst[dst_len + n] = src[n];
-			n++;
-		}
-	}
-	dst[dst_len + n] = '\0';
-	if (size < dst_len)
-		return (src_len + size);
-	return (len_total);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*s;
+	char	*line;
 	size_t	len;
-	int i;
-	int j;
-	
-	len = ft_strlen(s1) + ft_strlen (s2) + 1;
-	s = (char *)ft_calloc(sizeof(char), len);
+	int		i;
+	int		j;
+
 	i = 0;
 	j = 0;
-	if (s == NULL)
+	len = ft_strlen(prev_line) + ft_strlen (text) + 1;
+	line = (char *)malloc(sizeof(char) * len);
+	if (line == NULL)
 		return (NULL);
-	while(s1[i] != '\0')
-	{
-		s[i] = s1[j];
-		i++;
-		j++;
-	}
+	ft_bzero(line, len);
+	while (prev_line[i] != '\0')
+		line[i++] = prev_line[j++];
 	j = 0;
-	while(s2[j] != '\0' && s2[j] != '\n')
-	{
-		s[i] = s2[j];
-		i++;
-		j++;
-	}
-	if (s2[j] == '\n')
-	{
-		s[i] = s2[j];
-		i++;
-	}
-	s[i] = '\0';
-	//ft_strlcat(s, s1, len);
-	//ft_strlcat(s, s2, len);
-	//ft_strlcpy(s1, s, len);
-	//free(s1);
-	return (s);
+	while (text[j] != '\0' && text[j] != '\n')
+		line[i++] = text[j++];
+	if (text[j] == '\n')
+		line[i++] = text[j];
+	line[i] = '\0';
+	return (line);
 }
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*new;
-	size_t	total;
-	
-	total = nmemb * size;
-	if (nmemb != 0 && (total / nmemb != size))
-		return (NULL);
-	if (nmemb == 0 || size == 0)
-		return (malloc(0));
-	new = malloc(total);
-	if (new == NULL)
-		return (NULL);
-	ft_bzero(new, total);
-	return (new);
-}
-

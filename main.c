@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: natalia <natalia@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/11/22 17:13:15 by nmedeiro      #+#    #+#                 */
-/*   Updated: 2023/12/13 17:06:38 by nmedeiro      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/22 17:13:15 by nmedeiro          #+#    #+#             */
+/*   Updated: 2024/01/04 20:21:20 by natalia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 
 */
 #include "get_next_line.h"
+#include <string.h>
+
+#define SET_RED "\x1b[31m"
+#define RESET_RED "\x1b[0m"
+#define SET_GREEN "\x1b[32m"
+#define RESET_GREEN "\x1b[0m"
+
+
 int ft_fprintf()
 {
 	FILE	*file;
@@ -38,7 +46,7 @@ int ft_fprintf()
 	return (0);
 }
 
-int ft_test_get_next_line(char *file_name)
+void	ft_test_get_next_line(char *file_name)
 {
 	int		fd;
 	char	*lines;
@@ -52,33 +60,72 @@ int ft_test_get_next_line(char *file_name)
 		lines = get_next_line(fd);
 		printf("%s", lines);
 		i++;
-	} while (i < 50 && lines != NULL);
-	
+	}while (i < 50 && lines != NULL);
 	if (lines == NULL && i == 0)
 		printf("%s", lines);
 	free (lines);
 	close(fd);
-	return (0);
+}
+
+void	check(int test_number, char *line, char *expected_return)
+{
+	if (expected_return == NULL)
+	{
+		if (line == NULL)
+			printf("%s%d: OK %s", SET_GREEN, test_number, RESET_GREEN);
+		else
+			printf("%s%d: Error %s", SET_RED, test_number, RESET_RED);
+	}
+	else
+	{
+		if (strcmp(line, expected_return) == 0)
+			printf("%s%d: OK %s", SET_GREEN, test_number, RESET_GREEN);
+		else
+			printf("%s%d: Error %s", SET_RED, test_number, RESET_RED);
+	}
 }
 
 int	main(void)
 {
-	//ft_fprintf();
-
 	int		fd;
-	char	*lines;
 
+/* Invalid file */
 	fd = open("invalid_file", O_RDONLY);
-	lines = get_next_line(fd);
-	printf("Invalid file: %s\n", lines);
-	lines = get_next_line(100);
-	printf("invalid file: %s\n", lines);
-	lines = get_next_line(-1);
-	printf("invalid file: %s\n", lines);
+	printf("Invalid file:");
+	/* 1 */	check(1, get_next_line(fd), NULL);
+	/* 2 */	check(2, get_next_line(100), NULL);
+	/* 3 */ check(3, get_next_line(-1), NULL);
+	close(fd);
+
+/* Empty file */
 	fd = open("files/empty.txt", O_RDONLY);
-	lines = get_next_line(fd);
-	printf("invalid file: %s\n", lines);
-	ft_test_get_next_line("test.txt");
+	printf("\nEmpty file: ");
+	/* 1 */ check(1, get_next_line(fd), NULL);
+	close(fd);
+
+/* 1_line_with_nl */
+	fd = open("files/1_line_with_nl.txt", O_RDONLY);
+	printf("\n1_line_with_\\n: ");
+	check (1, get_next_line(fd), "012345678901234567890\n");
+	check (2, get_next_line(fd), NULL);
+	close(fd);
+
+/* 7x nl */
+	fd = open("files/7x_nl.txt", O_RDONLY);
+	printf("\n7 lines with nl: ");
+	check (1, get_next_line(fd), "\n");
+	check (2, get_next_line(fd), "\n");
+	check (3, get_next_line(fd), "\n");
+	check (4, get_next_line(fd), "\n");
+	check (5, get_next_line(fd), "\n");
+	check (6, get_next_line(fd), "\n");
+	check (7, get_next_line(fd), "\n");
+	check (8, get_next_line(fd), NULL);
+	close(fd);
+
+/* Multiple_lines */
+	fd = open("files/multiple_lines.txt", O_RDONLY);
+	printf("\nMultiple_lines: ");
 	return (0);
 }
 
