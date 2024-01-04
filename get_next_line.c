@@ -52,12 +52,17 @@ char *read_file_and_join(int fd, char *text, char *line)
 {
 	int buffer_read;
 	char	*prev_line;
-	//char	*temp_line;
 
 	buffer_read = 1;
 	prev_line = line;
 	if (ft_strchr(line, '\n') != NULL)
 		return(line);
+//	if(line[0] == '\n')
+//	{
+//		line[0] = line[1];
+//		line[ft_strlen(line) - 1] = '\0';
+//		return (line);
+//	}
 	while(buffer_read != 0 && (ft_strchr(text, '\n') == NULL))
 	{
 		buffer_read = read(fd, text, BUFFER_SIZE);
@@ -94,41 +99,63 @@ int	find_next_line(char *text)
 	return (i);
 }
 
- char *update_text(char *text, int i)
- {
-	int	j;
+void	update_text(char *text)
+{
+	int		i;
+	char	*temp;
 
-	j = 0;
-	while (text[i])
+	i = 0;
+	temp = ft_strchr(text, '\n');
+	if (temp == NULL)
+		return ;
+	temp++;
+	while (temp[i] != '\0')
 	{
-		text[j++] = text[i++];
+		text[i] = temp[i];
+		i++;
 	}
-	text[j] = '\0';
-	return (text);
- }
+	text[i] = '\0';
+}
+
+char *create_line(char *text)
+{
+	char *line;
+	int i;
+	
+	i = 0;
+	line = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (line == NULL)
+		return (NULL);
+	while (text[i] != '\0' && text[i] != '\n')
+	{
+		line[i] = text[i];
+		i++;
+	}
+	if (text[i] == '\n')
+		line[i++] = '\n';
+	line[i] = '\0';
+	return (line);
+}
 
 char *get_next_line(int fd)
 {
 	static char text[BUFFER_SIZE + 1];
 	char *line;
-	//int line_size;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
+	{
 		return (NULL);
-	//printf("%d\n", line_size);
-	line = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	}
+	//line = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	//if (line == NULL) //esse eu inclui aqui para checar o sucesso do calloc, mas por enquanto ele nao esta sendo necessario por isso esta comentado
+	//	return (NULL);
+	line = create_line(text);
+	//ft_strlcpy(line, text, (ft_strlen(text) + 1));
+	line = read_file_and_join(fd, text, line);
 	if (line == NULL)
 		return (NULL);
-	ft_strlcpy(line, text, (ft_strlen(text)));
-	line = read_file_and_join(fd, text, line);
-	//line_size = find_next_line(text);
-	//printf("%d\n", line_size);
-	//line = ft_calloc((line_size + 2), sizeof(char));
-	//if (line == NULL)
-	//	return (NULL);
-	//ft_strlcpy(line, text, (line_size + 1));
 	if (line[0] == '\0')
 		return (free(line), NULL);
-	update_text(text, ft_strlen(line));
+	update_text(text);
 	return(line);
 }

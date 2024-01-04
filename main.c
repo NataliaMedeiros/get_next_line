@@ -46,12 +46,14 @@ int ft_test_get_next_line(char *file_name)
 
 	i = 0;
 	fd = open(file_name, O_RDONLY);
-	while (i < 50)
+
+	do
 	{
 		lines = get_next_line(fd);
 		printf("%s", lines);
 		i++;
-	}
+	} while (i < 50 && lines != NULL);
+	
 	if (lines == NULL && i == 0)
 		printf("%s", lines);
 	free (lines);
@@ -62,7 +64,20 @@ int ft_test_get_next_line(char *file_name)
 int	main(void)
 {
 	//ft_fprintf();
-	
+
+	int		fd;
+	char	*lines;
+
+	fd = open("invalid_file", O_RDONLY);
+	lines = get_next_line(fd);
+	printf("Invalid file: %s\n", lines);
+	lines = get_next_line(100);
+	printf("invalid file: %s\n", lines);
+	lines = get_next_line(-1);
+	printf("invalid file: %s\n", lines);
+	fd = open("files/empty.txt", O_RDONLY);
+	lines = get_next_line(fd);
+	printf("invalid file: %s\n", lines);
 	ft_test_get_next_line("test.txt");
 	return (0);
 }
