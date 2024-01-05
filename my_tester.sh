@@ -15,8 +15,8 @@ cc -Wall -Werror -Wextra -g \
 
 #	echo "Compiling file ${BOLD} ft_printf ${RESET}"
 if [ -f exec/get_next_line ]; then
-	echo "Compilation successful for file ft_printf. Starting tests"
+	echo "Compilation successful for file get_next_line. Starting tests"
 	./exec/get_next_line
 else
-	echo "Compilation failed  for file ft_printf."
+	echo "Compilation failed  for file get_next_line."
 fi

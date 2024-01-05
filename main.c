@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:13:15 by nmedeiro          #+#    #+#             */
-/*   Updated: 2024/01/04 20:45:30 by natalia          ###   ########.fr       */
+/*   Updated: 2024/01/05 18:21:21 by natalia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 	return -1 on error.
 
 */
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <string.h>
 
 #define SET_RED "\x1b[31m"
@@ -107,6 +107,7 @@ int	main(void)
 	fd = open("files/1_line_with_nl.txt", O_RDONLY);
 	printf("\n1_line_with_\\n: ");
 	check (1, get_next_line(fd), "012345678901234567890\n");
+	check (2, get_next_line(fd), NULL);
 	check (2, get_next_line(fd), NULL);
 	close(fd);
 

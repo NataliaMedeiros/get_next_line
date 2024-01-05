@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:39:08 by natalia           #+#    #+#             */
-/*   Updated: 2024/01/05 15:48:13 by natalia          ###   ########.fr       */
+/*   Updated: 2024/01/05 19:16:39 by natalia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -57,3 +57,30 @@ char	*ft_strjoin(char *prev_line, char *text)
 	line[i] = '\0';
 	return (line);
 }
+
+
+// void remove_node(t_text *head, t_text *to_remove)
+// {
+// 	t_text *current;
+// 	t_text *prev_node;
+
+// 	if (to_remove == head)
+// 	{
+// 		head = to_remove->next;
+// 	}
+// 	else
+// 	{
+// 		current = head;
+// 		while (current != NULL)
+// 		{
+// 			if (current == to_remove)
+// 			{
+// 				prev_node->next = current->next;
+// 				break;
+// 			}
+// 			prev_node = current;
+// 			current = current->next;
+// 		}
+// 	}
+// 	free(to_remove);
+// }
