@@ -7,7 +7,7 @@ rm -rf exec
 mkdir exec
 
 cc -Wall -Werror -Wextra -g \
-	-D BUFFER_SIZE=42 \
+	-D BUFFER_SIZE=1000000\
 	main_bonus.c \
 	get_next_line_bonus.c \
 	get_next_line_utils_bonus.c \

@@ -97,7 +97,7 @@ t_text *ft_lstnew(int fd)
 	if (new_element == NULL)
 		return (NULL);
 	new_element->fd = fd;
-	ft_bzero(new_element->text, (BUFFER_SIZE + 1));
+	ft_bzero(new_element->text, 1);
 	//new_element->text = strdup(content);
 	new_element->next = NULL;
 	return (new_element);
@@ -159,38 +159,46 @@ t_text	*remove_node(t_text *head, t_text *to_remove)
 	return (head);
 }
 
+t_text	*get_or_add_node(t_text *head, int fd)
+{
+	t_text *current;
+
+	current = head;
+	if (current->fd == fd)
+		return (current);
+	while (current && current->next != NULL)
+	{	
+		current = current->next;
+		if (current->fd == fd)
+			return (current);
+	}
+	current->next = ft_lstnew(fd);
+	return (current->next);
+}
+
 char *get_next_line(int fd)
 {
 	char *line;
 	static t_text *head;
-	t_text *current;
+	t_text		*current;
 
-	current = head;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (current)
+	if (!head) 
 	{
-		if (current->fd == fd)
-			break ;
-		current = current->next;
+		head = ft_lstnew(fd);
+		current = head;
 	}
-	if (!current)
-	{
-		current = ft_lstnew(fd);
-		current->next = head;
-		head = current;
-	}
+	else
+		current = get_or_add_node(head, fd);
 	line = create_line(current->text);
 	line = read_file_and_join(fd, current->text, line);
-	if (line == NULL)
+	if (line == NULL || line[0] == '\0')
 	{
 		head = remove_node(head, current);
+		if (line != NULL && line[0] == '\0')
+			free(line);
 		return (NULL);
-	}
-	if (line[0] == '\0')
-	{
-		head = remove_node(head, current);
-		return (free(line), NULL);
 	}
 	update_text(current->text);
 	return (line);

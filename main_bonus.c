@@ -3,18 +3,18 @@
 int main() {
     char *line;
     int fd1 = open("files/invalid.txt", O_RDONLY);
-    int fd2 = open("files/multiple_lines.txt", O_RDONLY);
-
+    int fd2 = open("files/1_line_with_nl.txt", O_RDONLY);
+    int fd3 = open("files/1_line_with_nl.txt", O_RDONLY);
 
     // Use line as needed
 
     line = get_next_line(fd2);
 	printf("%s\n", line);
 
-	line = get_next_line(100);
+	line = get_next_line(fd1);
 	//printf("%s\n", line);
 
-	line = get_next_line(fd2);
+	line = get_next_line(fd3);
 	printf("%s\n", line);
     // Use line as needed
 
