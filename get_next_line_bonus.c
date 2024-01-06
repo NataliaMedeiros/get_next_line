@@ -97,7 +97,8 @@ t_text *ft_lstnew(int fd)
 	if (new_element == NULL)
 		return (NULL);
 	new_element->fd = fd;
-	// new_element->text = strdup(content);
+	ft_bzero(new_element->text, (BUFFER_SIZE + 1));
+	//new_element->text = strdup(content);
 	new_element->next = NULL;
 	return (new_element);
 }
@@ -182,7 +183,10 @@ char *get_next_line(int fd)
 	line = create_line(current->text);
 	line = read_file_and_join(fd, current->text, line);
 	if (line == NULL)
+	{
+		head = remove_node(head, current);
 		return (NULL);
+	}
 	if (line[0] == '\0')
 	{
 		head = remove_node(head, current);

@@ -29,8 +29,6 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_text;
 
-static t_text *fd_list = NULL;
-
 char	*get_next_line(int fd);
 
 char	*ft_strchr(const char *s, char c);
