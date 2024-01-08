@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/22 17:05:07 by nmedeiro      #+#    #+#                 */
-/*   Updated: 2024/01/08 17:11:00 by nmedeiro      ########   odam.nl         */
+/*   Updated: 2024/01/08 18:05:33 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@
 typedef struct s_list
 {
 	int				fd;
-	char			*text;
+	char			text[BUFFER_SIZE + 1];
 	struct s_list	*next;
-	struct s_list	*first_node;
 }					t_text;
 
 char	*get_next_line(int fd);
@@ -54,6 +53,6 @@ t_text	*remove_node(t_text *head, t_text *to_remove);
 
 t_text	*get_or_add_node(t_text *head, int fd);
 
-int		find_next_line(char *text);
+int	find_nl(char *text);
 
 #endif
