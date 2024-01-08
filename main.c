@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 17:13:15 by nmedeiro          #+#    #+#             */
-/*   Updated: 2024/01/05 18:21:21 by natalia          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: natalia <natalia@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/11/22 17:13:15 by nmedeiro      #+#    #+#                 */
+/*   Updated: 2024/01/08 13:34:21 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,38 +158,14 @@ int	main(void)
 	check (29, get_next_line(fd), "a binary file. However, you can implement a logical way to handle this behavior if\n");
 	check (30, get_next_line(fd), "you want to.\n");
 	check (31, get_next_line(fd), NULL);
+
+	fd = open("files/multiple_nl.txt", O_RDONLY);
+	printf("\nMultiple_nl_lines: ");
+		/* 1 */ check(1, get_next_line(fd), "\n");
+		/* 2 */ check(2, get_next_line(fd), "\n");
+		/* 3 */ check(3, get_next_line(fd), "\n");
+		/* 4 */ check(4, get_next_line(fd), "\n");
+		/* 5 */ check(5, get_next_line(fd), "\n");
+		/* 6 */ check(6, get_next_line(fd), NULL);
 	return (0);
 }
-
-/*
-Repeated calls (e.g., using a loop) to your get_next_line() function should let
-you read the text file pointed to by the file descriptor, one line at a time.
-• Your function should return the line that was read.
-If there is nothing else to read or if an error occurred, it should return NULL.
-• Make sure that your function works as expected both when reading a file and when
-reading from the standard input.
-• Please note that the returned line should include the terminating \n character,
-except if the end of file was reached and does not end with a \n character.
-• Your header file get_next_line.h must at least contain the prototype of the
-get_next_line() function.
-• Add all the helper functions you need in the get_next_line_utils.c file.
-Repeated calls (e.g., using a loop) to your get_next_line() function should let
-you read the text file pointed to by the file descriptor, one line at a time.
-• Your function should return the line that was read.
-If there is nothing else to read or if an error occurred, it should return NULL.
-• Make sure that your function works as expected both when reading a file and when
-reading from the standard input.
-• Please note that the returned line should include the terminating \n character,
-except if the end of file was reached and does not end with a \n character.
-• Your header file get_next_line.h must at least contain the prototype of the
-get_next_line() function.
-• Add all the helper functions you need in the get_next_line_utils.c file.
-You will compile your code as follows (a buffer size of 42 is used as an example):
-cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 <files>.c
-• We consider that get_next_line() has an undefined behavior if the file pointed to
-by the file descriptor changed since the last call whereas read() didn’t reach the
-end of file.
-• We also consider that get_next_line() has an undefined behavior when reading
-a binary file. However, you can implement a logical way to handle this behavior if
-you want to.
-*/

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 17:00:58 by nmedeiro          #+#    #+#             */
-/*   Updated: 2024/01/05 15:48:16 by natalia          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: natalia <natalia@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/11/22 17:00:58 by nmedeiro      #+#    #+#                 */
+/*   Updated: 2024/01/08 12:11:15 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ char	*create_line(char *text)
 	}
 	if (text[i] == '\n')
 		line[i++] = '\n';
-	line[i] = '\0';
 	return (line);
 }
 
@@ -97,6 +96,8 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = create_line(text);
+	if (line == NULL)
+		return (NULL);
 	line = read_file_and_join(fd, text, line);
 	if (line == NULL)
 		return (NULL);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 17:00:58 by nmedeiro          #+#    #+#             */
-/*   Updated: 2024/01/07 00:04:35 by natalia          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line_bonus.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: natalia <natalia@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/11/22 17:00:58 by nmedeiro      #+#    #+#                 */
+/*   Updated: 2024/01/08 13:39:08 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ char	*get_next_line(int fd)
 	else
 		current = get_or_add_node(head, fd);
 	line = create_line(current->text);
+	if (line == NULL)
+		return (NULL);
 	line = read_file_and_join(fd, current->text, line);
 	if (line == NULL || line[0] == '\0')
 	{
