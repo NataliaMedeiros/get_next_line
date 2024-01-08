@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/22 17:00:58 by nmedeiro      #+#    #+#                 */
-/*   Updated: 2024/01/08 13:39:08 by nmedeiro      ########   odam.nl         */
+/*   Updated: 2024/01/08 17:42:45 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ t_text	*ft_lstnew(int fd)
 	if (new_element == NULL)
 		return (NULL);
 	new_element->fd = fd;
-	new_element->text[0] = '\0';
+	new_element->text = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (new_element->text == NULL)
+		return (NULL);
 	new_element->next = NULL;
 	return (new_element);
 }
@@ -95,7 +97,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!head)
+	if (head == NULL)
 	{
 		head = ft_lstnew(fd);
 		current = head;
@@ -103,13 +105,11 @@ char	*get_next_line(int fd)
 	else
 		current = get_or_add_node(head, fd);
 	line = create_line(current->text);
-	if (line == NULL)
-		return (NULL);
 	line = read_file_and_join(fd, current->text, line);
 	if (line == NULL || line[0] == '\0')
 	{
 		head = remove_node(head, current);
-		if (line != NULL && line[0] == '\0')
+		if (line != NULL)
 			free(line);
 		return (NULL);
 	}

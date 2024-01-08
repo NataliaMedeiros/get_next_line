@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 17:05:07 by nmedeiro          #+#    #+#             */
-/*   Updated: 2024/01/06 23:49:50 by natalia          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line_bonus.h                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: natalia <natalia@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/11/22 17:05:07 by nmedeiro      #+#    #+#                 */
+/*   Updated: 2024/01/08 17:11:00 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 typedef struct s_list
 {
 	int				fd;
-	char			text[BUFFER_SIZE + 1];
+	char			*text;
 	struct s_list	*next;
+	struct s_list	*first_node;
 }					t_text;
 
 char	*get_next_line(int fd);
@@ -41,7 +42,7 @@ char	*create_line(char *text);
 
 void	*ft_calloc(size_t nmemb, size_t size);
 
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_join_str(char *s1, char *s2);
 
 void	ft_bzero(void *s, size_t n);
 
@@ -52,5 +53,7 @@ t_text	*ft_lstnew(int fd);
 t_text	*remove_node(t_text *head, t_text *to_remove);
 
 t_text	*get_or_add_node(t_text *head, int fd);
+
+int		find_next_line(char *text);
 
 #endif

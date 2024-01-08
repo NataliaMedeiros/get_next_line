@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/22 17:00:58 by nmedeiro      #+#    #+#                 */
-/*   Updated: 2024/01/08 12:11:15 by nmedeiro      ########   odam.nl         */
+/*   Updated: 2024/01/08 17:33:06 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*read_file_and_join(int fd, char *text, char *line)
 
 	buffer_read = 1;
 	prev_line = line;
+	if (ft_strchr(line, '\n') != NULL)
+		return (line);
 	while (buffer_read != 0 && (ft_strchr(text, '\n') == NULL))
 	{
 		buffer_read = read(fd, text, BUFFER_SIZE);
@@ -41,7 +43,7 @@ char	*read_file_and_join(int fd, char *text, char *line)
 			return (NULL);
 		}
 		text[buffer_read] = '\0';
-		line = ft_strjoin(prev_line, text);
+		line = ft_join_str(prev_line, text);
 		if (line == NULL)
 			return (free(prev_line), NULL);
 		free(prev_line);
@@ -74,17 +76,17 @@ char	*create_line(char *text)
 	int		i;
 
 	i = 0;
-	line = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	line = (char *)malloc((find_nl(text) + 1) * sizeof(char));
 	if (line == NULL)
 		return (NULL);
-	ft_bzero(line, (BUFFER_SIZE + 1));
+	ft_bzero(line, (find_nl(text) + 1));
 	while (text[i] != '\0' && text[i] != '\n')
 	{
 		line[i] = text[i];
 		i++;
 	}
 	if (text[i] == '\n')
-		line[i++] = '\n';
+		line[i] = '\n';
 	return (line);
 }
 

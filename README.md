@@ -60,7 +60,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	return (len_total);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_join_str(char const *s1, char const *s2)
 {
 	char	*s;
 	size_t	len;
@@ -174,7 +174,7 @@ char *read_file(int fd, char *text)
 		}
 		//printf ("bytes read %d\n", bytes_read);
 		new_text[bytes_read] = 0;
-		text = ft_strjoin(text, new_text);
+		text = ft_join_str(text, new_text);
 	}
 	return (text);
 }

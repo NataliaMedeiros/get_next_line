@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 17:05:07 by nmedeiro          #+#    #+#             */
-/*   Updated: 2024/01/05 15:48:34 by natalia          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line.h                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: natalia <natalia@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/11/22 17:05:07 by nmedeiro      #+#    #+#                 */
+/*   Updated: 2024/01/08 17:33:25 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ char	*create_line(char *text);
 
 void	*ft_calloc(size_t nmemb, size_t size);
 
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_join_str(char *s1, char *s2);
 
 void	ft_bzero(void *s, size_t n);
 
 size_t	ft_strlen(const char *s);
+
+int		find_nl(char *text);
 
 #endif

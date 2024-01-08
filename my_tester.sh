@@ -11,7 +11,7 @@ cc -Wall -Werror -Wextra -g \
 	main.c \
 	get_next_line.c \
 	get_next_line_utils.c \
-	-g -o exec/get_next_line
+	-o exec/get_next_line
 
 #	echo "Compiling file ${BOLD} ft_printf ${RESET}"
 if [ -f exec/get_next_line ]; then

@@ -1,1 +1,3 @@
-012345678901234567890\n
+avocado
+banana
+buffer

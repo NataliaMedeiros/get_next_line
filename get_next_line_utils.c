@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:39:08 by natalia       #+#    #+#                 */
-/*   Updated: 2024/01/08 11:49:45 by nmedeiro      ########   odam.nl         */
+/*   Updated: 2024/01/08 17:32:49 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,21 @@ size_t	ft_strlen(const char *s)
 
 	len = 0;
 	while (s[len] != '\0')
-	{
 		len++;
-	}
 	return (len);
 }
 
-char	*ft_strjoin(char *prev_line, char *text)
+char	*ft_join_str(char *prev_line, char *text)
 {
 	char	*line;
-	size_t	len;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	len = ft_strlen(prev_line) + ft_strlen (text) + 1;
-	line = (char *)malloc(sizeof(char) * len);
+	line = malloc(sizeof(char) * (ft_strlen(prev_line) + find_nl(text) + 1));
 	if (line == NULL)
 		return (NULL);
-	ft_bzero(line, len);
 	while (prev_line[i] != '\0')
 		line[i++] = prev_line[j++];
 	j = 0;
@@ -56,4 +51,16 @@ char	*ft_strjoin(char *prev_line, char *text)
 		line[i++] = text[j];
 	line[i] = '\0';
 	return (line);
+}
+
+int	find_nl(char *text)
+{
+	int		i;
+
+	i = 0;
+	while (text[i] != '\n' && text[i] != '\0')
+		i++;
+	if (text[i] == '\n')
+		i++;
+	return (i);
 }
