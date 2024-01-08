@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:39:08 by natalia       #+#    #+#                 */
-/*   Updated: 2024/01/08 17:32:49 by nmedeiro      ########   odam.nl         */
+/*   Updated: 2024/01/08 18:13:09 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*ft_join_str(char *prev_line, char *text)
 	return (line);
 }
 
-int	find_nl(char *text)
+size_t	find_nl(char *text)
 {
 	int		i;
 

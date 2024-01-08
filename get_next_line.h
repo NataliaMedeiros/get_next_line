@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/22 17:05:07 by nmedeiro      #+#    #+#                 */
-/*   Updated: 2024/01/08 17:33:25 by nmedeiro      ########   odam.nl         */
+/*   Updated: 2024/01/08 18:13:00 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ void	ft_bzero(void *s, size_t n);
 
 size_t	ft_strlen(const char *s);
 
-int		find_nl(char *text);
+size_t	find_nl(char *text);
 
 #endif

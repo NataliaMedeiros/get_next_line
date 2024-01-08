@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/22 17:05:07 by nmedeiro      #+#    #+#                 */
-/*   Updated: 2024/01/08 18:05:33 by nmedeiro      ########   odam.nl         */
+/*   Updated: 2024/01/08 18:35:58 by nmedeiro      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	update_text(char *text);
 
 char	*create_line(char *text);
 
-void	*ft_calloc(size_t nmemb, size_t size);
-
 char	*ft_join_str(char *s1, char *s2);
 
 void	ft_bzero(void *s, size_t n);
@@ -53,6 +51,6 @@ t_text	*remove_node(t_text *head, t_text *to_remove);
 
 t_text	*get_or_add_node(t_text *head, int fd);
 
-int	find_nl(char *text);
+int		find_nl(char *text);
 
 #endif
