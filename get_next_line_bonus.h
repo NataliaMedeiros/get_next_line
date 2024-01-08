@@ -6,7 +6,7 @@
 /*   By: natalia <natalia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:05:07 by nmedeiro          #+#    #+#             */
-/*   Updated: 2024/01/05 18:13:09 by natalia          ###   ########.fr       */
+/*   Updated: 2024/01/06 23:49:50 by natalia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,11 @@ char	*ft_strjoin(char *s1, char *s2);
 void	ft_bzero(void *s, size_t n);
 
 size_t	ft_strlen(const char *s);
+
+t_text	*ft_lstnew(int fd);
+
+t_text	*remove_node(t_text *head, t_text *to_remove);
+
+t_text	*get_or_add_node(t_text *head, int fd);
 
 #endif
