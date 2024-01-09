@@ -24,7 +24,7 @@ void	check(int test_number, char *line, char *expected_return)
 }
 
 int main() {
-    char *line;
+    //char *line;
     int fd1 = open("files/invalid.txt", O_RDONLY);
     int fd2 = open("files/1_line_with_nl.txt", O_RDONLY);
     int fd3 = open("files/1_line_with_nl.txt", O_RDONLY);
@@ -37,14 +37,14 @@ int main() {
 	/* 1 */ check(1, get_next_line(fd), NULL);
 	close(fd);
 
-    line = get_next_line(fd2);
-	printf("%s\n", line);
-
-	line = get_next_line(fd1);
+    get_next_line(fd2);
 	//printf("%s\n", line);
 
-	line = get_next_line(fd3);
-	printf("%s\n", line);
+	get_next_line(fd1);
+	//printf("%s\n", line);
+
+	get_next_line(fd3);
+	//printf("%s\n", line);
     // Use line as needed
 
     // Close files and free resources as needed

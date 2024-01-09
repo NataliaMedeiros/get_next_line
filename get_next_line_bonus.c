@@ -18,6 +18,8 @@ char	*read_file_and_join(int fd, char *text, char *line)
 	char	*prev_line;
 
 	buffer_read = 1;
+	if (line == NULL)
+		return (NULL);
 	prev_line = line;
 	while (buffer_read != 0 && (ft_strchr(text, '\n') == NULL))
 	{
@@ -106,6 +108,8 @@ char	*get_next_line(int fd)
 	if (head == NULL)
 	{
 		head = ft_lstnew(fd);
+		if(head == NULL)
+			return (NULL);
 		current = head;
 	}
 	else
