@@ -33,7 +33,7 @@ char	*get_next_line(int fd);
 
 char	*ft_strchr(const char *s, char c);
 
-char	*read_file_and_join(int fd, char *text, char *line);
+char	*read_file_and_join(int fd, char *text);
 
 void	update_text(char *text);
 

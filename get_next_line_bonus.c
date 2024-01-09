@@ -12,12 +12,14 @@
 
 #include "get_next_line_bonus.h"
 
-char	*read_file_and_join(int fd, char *text, char *line)
+char	*read_file_and_join(int fd, char *text)
 {
 	int		buffer_read;
 	char	*prev_line;
+	char	*line;
 
 	buffer_read = 1;
+	line = create_line(text);
 	if (line == NULL)
 		return (NULL);
 	prev_line = line;
@@ -27,8 +29,7 @@ char	*read_file_and_join(int fd, char *text, char *line)
 		if (buffer_read == -1)
 		{
 			text[0] = '\0';
-			free(prev_line);
-			return (NULL);
+			return (free(prev_line), NULL);
 		}
 		text[buffer_read] = '\0';
 		line = ft_join_str(prev_line, text);
@@ -108,14 +109,13 @@ char	*get_next_line(int fd)
 	if (head == NULL)
 	{
 		head = ft_lstnew(fd);
-		if(head == NULL)
+		if (head == NULL)
 			return (NULL);
 		current = head;
 	}
 	else
 		current = get_or_add_node(head, fd);
-	line = create_line(current->text);
-	line = read_file_and_join(fd, current->text, line);
+	line = read_file_and_join(fd, current->text);
 	if (line == NULL || line[0] == '\0')
 	{
 		head = remove_node(head, current);
